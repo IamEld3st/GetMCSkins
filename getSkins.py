@@ -13,7 +13,12 @@ def processSkin(skinHash, sType, path):
     url = "https://mcskinsearch.com/texture/skin/"+skinHash+".png"
     req = requests.get(url)
     img = BytesIO(req.content)
-    imgIn = Image.open(img)
+    try:
+        global imgIn
+        imgIn = Image.open(img)
+    except:
+        print("Image failed... Hash: "+skinHash)
+
     w, h = imgIn.size
     if sType == "0":
         if h == 32:
@@ -57,4 +62,5 @@ print("Will get "+str(skinReq)+" pages.")
 for i in range(0, skinReq):
     print("Downloading page: "+str(i+1))
     getSkins(i+1, args[1], saveDir)
+    time.sleep(1)
 print("All done!")
